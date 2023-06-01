@@ -1,15 +1,36 @@
-import {Express, Request, Response } from "express";
+import express,  {Express, Request, Response } from "express";
 
-const express = require('express');
-const dotenv = require('dotenv');
+import axios, { AxiosRequestConfig } from "axios";
+import config from "./src/configs/BaseApiConfig";
 
-dotenv.config();
+
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
 
 const app: Express  = express();
 const port = process.env.PORT;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Lets go');
+
+
+app.get('/', async (req: Request, res: Response) => {
+  try {
+    const headers = config.headers;
+    const requestConfig: AxiosRequestConfig = {
+      headers: headers,
+    };
+
+    const response = await axios.get(config.apiUrl + 'competitions', requestConfig);
+    console.log(response.data.competitions)
+    // Send the response from the API to the client
+    res.send(response.data.competitions);
+
+  } catch (error) {
+    // Handle the error and send an error response to the client
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
 });
 
 app.listen(port, () => {
