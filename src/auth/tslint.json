@@ -1,0 +1,36 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+      "tslint:recommended"
+    ],
+    "rules": {
+      "semicolon": [true, "always"],
+      "quotemark": [true, "single"],
+      "indent": [true, "spaces", 2],
+      "object-literal-sort-keys": false,
+      "ordered-imports": false,
+      "no-console": false,
+      "no-var-requires": false,
+      "interface-name": false,
+      "interface-over-type-literal": false,
+      "trailing-comma": false,
+      "no-empty-interface": false,
+      "max-classes-per-file": false,
+      "member-ordering": false,
+      "variable-name": false,
+      "no-submodule-imports": false,
+      "no-floating-promises": false,
+      "no-string-literal": false,
+      "no-unnecessary-type-assertion": false,
+      "no-implicit-dependencies": false,
+      "no-namespace": false,
+      "typedef": false,
+      "strict-boolean-expressions": false,
+      "no-magic-numbers": false,
+      "await-promise": false,
+      "object-literal-shorthand": false,
+      "no-shadowed-variable": false,
+      "no-any": false
+    },
+    "rulesDirectory": []
+  }

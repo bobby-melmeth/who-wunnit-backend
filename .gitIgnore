@@ -41,8 +41,15 @@ bower_components
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
-# Dependency directories
+# node.js
+#
 node_modules/
+npm-debug.log
+.env
+yarn-error.log
+
+
+# Dependency directories
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
@@ -77,10 +84,6 @@ web_modules/
 
 # dotenv environment variable files
 .env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
