@@ -1,17 +1,13 @@
-import express,  {Express, Request, Response } from "express";
+import express, { Express, Request, Response } from "express";
 
 import axios, { AxiosRequestConfig } from "axios";
 import config from "./src/configs/BaseApiConfig";
 
 
-import { PrismaClient } from '@prisma/client'
+const app = express();
+const port = process.env.PORT || 8080;
 
-const prisma = new PrismaClient()
-
-
-const app: Express  = express();
-const port = process.env.PORT;
-
+app.use(express.json());
 
 
 app.get('/', async (req: Request, res: Response) => {
@@ -21,10 +17,10 @@ app.get('/', async (req: Request, res: Response) => {
       headers: headers,
     };
 
-    const response = await axios.get(config.apiUrl + 'competitions', requestConfig);
-    console.log(response.data.competitions)
+    const response = await axios.get(config.apiUrl + 'competitions/competitions/WC/matches', requestConfig);
+    console.log(JSON.stringify(response.data, null, 2))
     // Send the response from the API to the client
-    res.send(response.data.competitions);
+    res.send(response.data);
 
   } catch (error) {
     // Handle the error and send an error response to the client
@@ -33,6 +29,7 @@ app.get('/', async (req: Request, res: Response) => {
   }
 });
 
+
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+})
