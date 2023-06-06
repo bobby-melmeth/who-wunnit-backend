@@ -17,7 +17,7 @@ app.get('/', async (req: Request, res: Response) => {
       headers: headers,
     };
 
-    const response = await axios.get(config.apiUrl + 'competitions/competitions/WC/matches', requestConfig);
+    const response = await axios.get(config.apiUrl + 'competitions/competitions/`${WC}`/matches', requestConfig);
     console.log(JSON.stringify(response.data, null, 2))
     // Send the response from the API to the client
     res.send(response.data);
