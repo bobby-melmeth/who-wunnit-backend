@@ -3,6 +3,8 @@ import { User } from './models';
 import * as UserService from './services';
 
 
+
+
 export const createUser = async (req: Request, res: Response) => {
   try {
     const userData: User = req.body;
