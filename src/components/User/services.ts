@@ -12,7 +12,7 @@ export async function getUserById(id: string): Promise<User | null> {
     return prisma.user.findUnique({ where: { id } });
   }
 
-export async function updateUser(id: string, data: Partial<User>): Promise<User | null> {
+export async function updateUser(id: number, data: Partial<User>): Promissse<User | null> {
     return prisma.user.update({ where: { id }, data });
 }
 
