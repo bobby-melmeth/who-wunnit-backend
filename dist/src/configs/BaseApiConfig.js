@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const config = {
-    apiUrl: 'http://api.football-data.org/v4/',
+    apiUrl: 'https://localhost:8080/',
     authToken: 'your-auth-token',
     headers: {
         'Content-Type': 'application/json',
