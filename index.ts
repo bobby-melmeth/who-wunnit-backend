@@ -1,33 +1,17 @@
-import express, { Express, Request, Response } from "express";
+import express from "express";
+import userRouter from "./src/components/User/routes";
+import errorHandler from "./src/utils/errorHandler";
 
-import axios, { AxiosRequestConfig } from "axios";
-import config from "./src/configs/BaseApiConfig";
+
 
 
 const app = express();
 const port = process.env.PORT || 8080;
 
 app.use(express.json());
+app.use(errorHandler)
 
-
-app.get('/', async (req: Request, res: Response) => {
-  try {
-    const headers = config.headers;
-    const requestConfig: AxiosRequestConfig = {
-      headers: headers,
-    };
-
-    const response = await axios.get(config.apiUrl + 'competitions/competitions/`${WC}`/matches', requestConfig);
-    console.log(JSON.stringify(response.data, null, 2))
-    // Send the response from the API to the client
-    res.send(response.data);
-
-  } catch (error) {
-    // Handle the error and send an error response to the client
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred' });
-  }
-});
+app.use('/users', userRouter);
 
 
 app.listen(port, () => {

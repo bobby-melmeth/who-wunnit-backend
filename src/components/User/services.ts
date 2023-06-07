@@ -12,6 +12,10 @@ export async function getUserById(id: string): Promise<User | null> {
     return prisma.user.findUnique({ where: { id } });
   }
 
+export async function getUsers(): Promise<User[]> {
+return prisma.user.findMany();
+}
+
 export async function updateUser(id: string, data: Partial<User>): Promise<User | null> {
     return prisma.user.update({ where: { id }, data });
 }

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { User } from './models';
 import * as UserService from './services';
+import errorHandler from '../../utils/errorHandler';
 
 
 
@@ -23,12 +24,20 @@ export const getUserById = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
+    res.json(user);
+  } catch (error: any) {
+    errorHandler(error, req, res, () => {});
+  }
+};
 
-    res.status(200).json(user);
+export const getUsers = async (req: Request, res: Response) => {
+  try {
+    const users: User[] = await UserService.getUsers();
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
-};
+}
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
