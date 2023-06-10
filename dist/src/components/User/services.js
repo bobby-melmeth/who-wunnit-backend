@@ -9,12 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.updateUser = exports.getUsers = exports.getUserById = exports.createUser = void 0;
+exports.deleteUser = exports.updateUser = exports.getUsers = exports.getUserByEmail = exports.getUserById = exports.createUser = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 function createUser(user) {
     return __awaiter(this, void 0, void 0, function* () {
-        return prisma.user.create({ data: user });
+        const createdUser = prisma.user.create({ data: user });
+        return createdUser;
     });
 }
 exports.createUser = createUser;
@@ -24,6 +25,12 @@ function getUserById(id) {
     });
 }
 exports.getUserById = getUserById;
+function getUserByEmail(email) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return prisma.user.findUnique({ where: { email } });
+    });
+}
+exports.getUserByEmail = getUserByEmail;
 function getUsers() {
     return __awaiter(this, void 0, void 0, function* () {
         return prisma.user.findMany();
