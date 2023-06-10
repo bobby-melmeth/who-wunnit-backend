@@ -8,10 +8,10 @@ datasource db {
 }
 
 model User {
-  id      String   @id @default(uuid())
-  email   String   @unique
+  id      String    @id @default(uuid())
+  email   String    @unique
   name    String
-  profile Profile?
+  profile Profile[]
 }
 
 model Profile {
@@ -22,5 +22,140 @@ model Profile {
 }
 
 model League {
-  id String @id @default(uuid())
+  id          Int      @id @default(autoincrement())
+  name        String
+  code        String
+  emblemUrl   String
+  plan        String
+  lastUpdated String
+  area        Area     @relation(fields: [areaId], references: [id])
+  areaId      Int
+  seasons     Season[]
+}
+
+model Area {
+  id      Int      @id @default(autoincrement())
+  name    String
+  code    String
+  flag    String
+  leagues League[]
+  Team    Team[]
+
+  @@map("Area")
+}
+
+model Season {
+  id        Int     @id @default(autoincrement())
+  startDate String
+  endDate   String
+  winner    Winner?
+  winnerId  Int?
+  league    League  @relation(fields: [id], references: [id])
+}
+
+model Winner {
+  id          Int     @id @default(autoincrement())
+  name        String
+  shortName   String
+  tla         String
+  crest       String
+  address     String
+  website     String
+  founded     Int
+  clubColors  String
+  venue       String
+  lastUpdated String
+  season      Season? @relation(fields: [id], references: [id])
+  seasonId    Int?
+}
+
+model CurrentSeason {
+  id        Int            @id @default(autoincrement())
+  startDate String
+  endDate   String
+  winner    CurrentWinner?
+}
+
+model CurrentWinner {
+  id          Int            @id @default(autoincrement())
+  name        String
+  shortName   String
+  tla         String
+  crest       String
+  address     String
+  website     String
+  founded     Int
+  clubColors  String
+  venue       String
+  lastUpdated String
+  season      CurrentSeason? @relation(fields: [id], references: [id])
+}
+
+model Team {
+  id          Int    @id @default(autoincrement())
+  name        String
+  shortName   String
+  tla         String
+  crest       String
+  address     String
+  website     String
+  founded     Int
+  clubColors  String
+  venue       String
+  lastUpdated String
+  area        Area   @relation(fields: [areaId], references: [id])
+  areaId      Int
+
+  coach Coach?
+}
+
+model Squad {
+  id     Int      @id @default(autoincrement())
+  player Player[]
+}
+
+model Player {
+  id          Int    @id @default(autoincrement())
+  name        String
+  position    String
+  dateOfBirth String
+  nationality String
+  squad       Squad? @relation(fields: [squadId], references: [id])
+  squadId     Int?
+}
+
+model Coach {
+  id              Int           @id @default(autoincrement())
+  firstName       String
+  lastName        String?
+  name            String
+  dateOfBirth     String
+  nationality     String
+  coachContract   CoachContract @relation(fields: [coachContractId], references: [id])
+  coachContractId Int
+  team            Team          @relation(fields: [teamId], references: [id])
+  teamId          Int           @unique
+}
+
+model CoachContract {
+  id        Int     @id @default(autoincrement())
+  startDate String
+  endDate   String
+  coachId   Int?
+  Coach     Coach[]
+}
+
+model Competition {
+  id        Int    @id @default(autoincrement())
+  name      String
+  code      String
+  emblemUrl String
+  plan      String
+}
+
+model RunningCompetitions {
+  id        Int    @id @default(autoincrement())
+  name      String
+  code      String
+  emblemUrl String
 }
