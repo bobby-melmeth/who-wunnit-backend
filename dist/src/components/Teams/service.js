@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.findManyTeams = exports.createManyTeams = void 0;
 const client_1 = require("@prisma/client");
 const axios_1 = __importDefault(require("axios"));
+const metrics_1 = require("../../utils/metrics");
 const prisma = new client_1.PrismaClient();
 function createManyTeams() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -114,13 +115,19 @@ function createManyTeams() {
 exports.createManyTeams = createManyTeams;
 function findManyTeams() {
     return __awaiter(this, void 0, void 0, function* () {
+        const metricsLabels = {
+            operation: 'findManyTeams',
+        };
+        const timer = metrics_1.databaseResponseTimeHistogram.startTimer();
         try {
             const teams = yield prisma.team.findMany();
+            timer(Object.assign(Object.assign({}, metricsLabels), { success: 'true' }));
             console.log('Teams:', teams);
             return teams;
         }
         catch (error) {
-            console.error('Error retrieving teams:', error);
+            timer(Object.assign(Object.assign({}, metricsLabels), { success: 'false' }));
+            throw error;
         }
         finally {
             yield prisma.$disconnect();

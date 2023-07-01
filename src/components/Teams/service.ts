@@ -2,6 +2,7 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { Team } from './Types/TeamTypes';
 import axios from 'axios';
+import { databaseResponseTimeHistogram } from '../../utils/metrics';
 
 
 const prisma = new PrismaClient();
@@ -116,13 +117,19 @@ export async function createManyTeams() {
 
 
 export async function findManyTeams() {
-    try {
-      const teams = await prisma.team.findMany();
-      console.log('Teams:', teams);
-      return teams;
-    } catch (error) {
-      console.error('Error retrieving teams:', error);
-    } finally {
-      await prisma.$disconnect();
+    const metricsLabels = {
+        operation: 'findManyTeams',
     }
-  }
+    const timer = databaseResponseTimeHistogram.startTimer();
+    try {
+        const teams = await prisma.team.findMany();
+        timer({ ...metricsLabels, success: 'true' });
+        console.log('Teams:', teams);
+        return teams;
+    } catch (error) {
+        timer({ ...metricsLabels, success: 'false' });
+        throw error
+    } finally {
+        await prisma.$disconnect();
+    }
+}
