@@ -6,7 +6,7 @@ import { createManyTeams } from '../Teams/service';
 
 export async function createCompetition(_: Request, res: Response): Promise<void> {
   try {
-    // const aswd = await createManyTeams();
+
 
   } catch (error) {
     console.error('Error syncing competition:', error);
